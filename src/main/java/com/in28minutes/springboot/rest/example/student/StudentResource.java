@@ -27,13 +27,13 @@ public class StudentResource {
     }
 
     @GetMapping("/students/{id}")
-    public Student retrieveStudent(@PathVariable long id) {
+    public ResponseEntity<Student> retrieveStudent(@PathVariable long id) {
         Optional<Student> student = studentRepository.findById(id);
 
         if (student.isEmpty())
-            throw new StudentNotFoundException("id-" + id);
+            return ResponseEntity.notFound().build();
 
-        return student.get();
+        return ResponseEntity.ok(student.get());
     }
 
     @DeleteMapping("/students/{id}")
